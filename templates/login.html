@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Anything By IMS</title>
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <script src="{% static 'js/js.js' %}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+   
+</body>
+</head>
+
+<body>
+    {% block body %}
+    <main>
+        
+        <div class="container">
+            <video class='video' autoplay loop muted src="{% static 'videos/Footage 2.mp4'%}">vi</video>
+            <div class="logindiv">
+                <div class="header">
+                    <h1>Please login</h1>
+                </div>
+                {% for message in messages %}
+                <div id='alert' class="alert">
+                    <p><strong>Oops!</strong>{{message}}</p><button id='cutbtn' onclick="CutDiv('alert')" class='cutbtn'>&#10060;</button>
+                </div>
+                {% endfor %}
+                <form action="{% url 'login' %}" method='post'> {% csrf_token %}
+                <div class="main">
+                    {{form}}
+                    <label for="">If you don't have an account please <a href="{% url 'signup' %}">signup!</a></label>
+                    <button class="btn">Login</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    {% endblock body %}
+</body>
+{% block script %}
+<script>
+
+
+</script>
+{% endblock script %}
+
+</html>

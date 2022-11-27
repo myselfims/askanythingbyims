@@ -1,0 +1,208 @@
+{% extends 'home.html' %} {% load static %} {% block homebody %}
+
+<div class="polldetaildiv">
+  <div class="polldetailhead">
+    <h1>{{poll.title}}</h1>
+
+    <div>
+      <h3>Votes : <label id="poll_votes" for="">0</label></h3>
+      <h3>Comments : <label id="comment_count" for="">0</label></h3>
+      <h3>Likes : <label id="likes_count" for="">0</label></h3>
+      <label id="datelabel" for="">{{poll.date}}</label>
+    </div>
+    {% if poll.status == True %} {% comment %}
+    <a href="{%url 'deactivate_poll' id=poll.id %}">
+      {% endcomment %}
+      <div>
+        <button
+          id="actionbtn"
+          onclick="PollAction('deactivate_poll')"
+          class="btn"
+        >Deactivate</button>
+      </div>
+      {% comment %}
+    </a>
+    {% endcomment %}
+    <button
+      style="display: none"
+      id="delete-btn"
+      onclick="PollAction('delete_poll')"
+      class="btn"
+    >Delete</button>
+    <button
+      style="display: flex"
+      id="cop-btn"
+      onclick="CopyLink('cop-btn','{{poll.id}}','#47B5FF')"
+      class="btn">Copy link</button>
+    {% else %}
+
+    <div>
+      <button
+        id="actionbtn"
+        onclick="PollAction('deactivate_poll')"
+        class="btn"
+      >Activate</button>
+    </div>
+    <button
+      style="display: flex"
+      id="delete-btn"
+      onclick="PollAction('delete_poll')"
+      class="btn"
+    >Delete</button>
+    <button
+      style="display: none"
+      id="cop-btn"
+      onclick="CopyLink('cop-btn','{{poll.id}}','#47B5FF')"
+      class="btn">Copy link</button>
+    {% endif %}
+  </div>
+  <div class="graphdiv">
+    <h1 style="margin: 0em 0 1em 0">Live Graph</h1>
+    {% for response in answers %}
+    <h3 for="">{{forloop.counter}}. {{response.option}}</h3>
+    <br />
+    Votes : <label id="ans_vote{{response.id}}" for="">0</label>
+    <div id="{{response.id}}" class="answerdiv">
+      <label id="ans_per{{response.id}}" for="">0</label>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div id="commentsouterdiv" class="graphdiv">
+    <h1 style="margin: 0em 0 1em 0">Comments</h1>
+    <div id="commentsdiv" class="commentsdiv">
+      <!-- <div class="comment">
+                <label for="">Shaikh Imran</label>
+                <h3>Very nice poll.</h3>
+            </div> -->
+    </div>
+  </div>
+</div>
+
+{% block script %}
+<script>
+
+  var comment_sound = new Audio("{% static 'sounds/comment_sound.mp3' %}")
+
+  function CopyLink(btn,id,color){
+      var link = window.location.host + "/polling/"+id;
+      console.log(link)
+      <!-- link.select() -->
+      document.getElementById(btn).style.backgroundColor = color;
+      navigator.clipboard.writeText(link)
+      alert('Copied!')
+  }
+
+  function PollAction(action){
+      let actionbtn = document.getElementById('actionbtn').innerHTML;
+
+      if (actionbtn == 'Deactivate'){
+
+          $.ajax({
+              type : 'POST',
+              url : "{%url 'poll_action' id=poll.id %}",
+              data : {action:'deactivate_poll'},
+              success : function(){
+                  document.getElementById('actionbtn').innerHTML = 'Activate';
+                  document.getElementById('cop-btn').style.display = 'none';
+                  document.getElementById('delete-btn').style.display = 'flex';
+
+
+              }
+          })
+      }
+
+      if (actionbtn == 'Activate'){
+
+          $.ajax({
+              type : 'POST',
+              url : "{%url 'poll_action' id=poll.id %}",
+              data : {action:'activate_poll'},
+              success : function(){
+                  document.getElementById('actionbtn').innerHTML = 'Deactivate';
+                  document.getElementById('cop-btn').style.display = 'flex';
+                  document.getElementById('delete-btn').style.display = 'none';
+
+              }
+          })
+      }
+
+      if (action == 'delete_poll'){
+          $.ajax({
+              type : 'POST',
+              url : "{%url 'poll_action' id=poll.id %}",
+              data : {action:'delete_poll'},
+              success : function(){
+                  location.replace('{%url "home" %}')
+
+
+              }
+          })
+      }
+
+  }
+
+
+  $(document).ready(function(){
+      var t_comment = 0
+      setTimeout(function AjaxCall(){
+          $.ajax({
+              type: 'GET',
+              url : "{% url 'live_poll_detail' id=poll.id %}",
+              success : function(response){
+
+                  let total_votes = 0
+                  for (key in response.answers){
+                      total_votes += response.answers[key].votes
+
+                  }
+                  document.getElementById('poll_votes').innerHTML = total_votes;
+                  document.getElementById('likes_count').innerHTML = response.likes
+
+
+                  for (key in response.answers){
+
+                      let percentage = response.answers[key].votes/total_votes*100;
+                      document.getElementById('ans_per'+response.answers[key].id).innerHTML = String(percentage).slice(0,5)+'%';
+
+                      document.getElementById('ans_vote'+response.answers[key].id).innerHTML = response.answers[key].votes;
+
+                      document.getElementById(response.answers[key].id).style.width = percentage+'%';
+
+                      document.getElementById('comment_count').innerHTML = response.comments.length;
+
+
+
+                  }
+
+                 if(t_comment != response.comments.length){
+                    console.log(t_comment,response.comments.length)
+                    var div = document.getElementById('commentsdiv');
+                    for (comment in response.comments){
+                        console.log(comment);
+                        div.innerHTML += "<div class='comment'><label for=''>"+response.comments[comment].name+"</label><h3>"+response.comments[comment].comment+"</h3></div>"
+                    }
+                    console.log(t_comment)
+                    comment_sound.play()
+                    t_comment = response.comments.length;
+                 }
+                  
+                
+
+
+
+
+
+
+              },
+              complete : setTimeout(AjaxCall,1000),
+              error : function(){
+                  {% comment %} alert('Something went wrong please check your connection!') {% endcomment %}
+              }
+
+          })
+      },1000);
+
+  },)
+</script>
+{% endblock script %} {% endblock homebody %}
