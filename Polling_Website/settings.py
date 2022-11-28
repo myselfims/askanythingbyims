@@ -29,7 +29,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['askanythingbyims.herokuapp.com']
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://askanythingbyims.herokuapp.com'
+]
 # Application definition
 
 INSTALLED_APPS = [
