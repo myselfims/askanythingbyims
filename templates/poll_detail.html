@@ -98,44 +98,49 @@
 
   function PollAction(action){
       let actionbtn = document.getElementById('actionbtn').innerHTML;
-
+      document.getElementById('modalcontainer').style.display = 'flex';
+      
       if (actionbtn == 'Deactivate'){
-
-          $.ajax({
-              type : 'POST',
-              url : "{%url 'poll_action' id=poll.id %}",
-              data : {action:'deactivate_poll'},
-              success : function(){
+        
+        $.ajax({
+          type : 'POST',
+          url : "{%url 'poll_action' id=poll.id %}",
+          data : {action:'deactivate_poll'},
+          success : function(){
+                  document.getElementById('modalcontainer').style.display = 'none';
                   document.getElementById('actionbtn').innerHTML = 'Activate';
                   document.getElementById('cop-btn').style.display = 'none';
                   document.getElementById('delete-btn').style.display = 'flex';
-
-
-              }
-          })
-      }
-
+                  
+                  
+                }
+              })
+            }
+            
       if (actionbtn == 'Activate'){
-
-          $.ajax({
-              type : 'POST',
-              url : "{%url 'poll_action' id=poll.id %}",
-              data : {action:'activate_poll'},
-              success : function(){
+        
+        $.ajax({
+          type : 'POST',
+          url : "{%url 'poll_action' id=poll.id %}",
+          data : {action:'activate_poll'},
+          success : function(){
+                  document.getElementById('modalcontainer').style.display = 'none';
                   document.getElementById('actionbtn').innerHTML = 'Deactivate';
                   document.getElementById('cop-btn').style.display = 'flex';
                   document.getElementById('delete-btn').style.display = 'none';
-
-              }
-          })
-      }
-
+                  
+                }
+              })
+            }
+            
+            
       if (action == 'delete_poll'){
           $.ajax({
               type : 'POST',
               url : "{%url 'poll_action' id=poll.id %}",
               data : {action:'delete_poll'},
               success : function(){
+                  document.getElementById('modalcontainer').style.display = 'none';
                   location.replace('{%url "home" %}')
 
 

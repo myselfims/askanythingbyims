@@ -89,7 +89,7 @@
     function PollAction(id, action){
 
         let actionbtn = document.getElementById('btn'+id).innerHTML;
-        console.log(id)
+        document.getElementById('modalcontainer').style.display = 'flex';
         if (actionbtn == 'Deactivate'){
             $.ajax({
                 type : 'POST',
@@ -102,11 +102,12 @@
                     document.getElementById('cop-btn').style.display = 'none';
                     document.getElementById('delete-btn').style.display = 'flex';
                     document.getElementById('votes').innerHTML = 'Votes : ';
+                    document.getElementById('modalcontainer').style.display = 'none';
                     
                 }
             })
         }
-
+        
         if (actionbtn == 'Activate'){
             $.ajax({
                 type : 'POST',
@@ -118,6 +119,7 @@
                     document.getElementById('cop-btn').style.display = 'flex';
                     document.getElementById('delete-btn').style.display = 'none';
                     document.getElementById('votes').innerHTML = " Votes <sup id='livetxt' style='font-size: 0.5em; '><b  style='color:red;'>Live</b></sup> : <label  for='vote' id='vote{{poll.id}}'>0</label>";
+                    document.getElementById('modalcontainer').style.display = 'none';
                     
                 }
             })
@@ -130,9 +132,9 @@
                 data : {action:'delete_poll'},
                 success : function(){
                     location.reload()
-                 
                     document.getElementById('delete-btn').style.display = 'none';
                     document.getElementById('livetxt').style.display = 'flex';
+                    document.getElementById('modalcontainer').style.display = 'none';
                     
                 }
             })
@@ -141,7 +143,7 @@
     }
 
     $(document).ready(function(){
-
+        document.getElementById('modalcontainer').style.display = 'flex';
         setTimeout(function AjaxCall(){
             
             $.ajax({
@@ -149,6 +151,7 @@
                 url : "{% url 'live_vote' %}",
                 success : 
                     function(response){
+                    document.getElementById('modalcontainer').style.display = 'none';
                     $('#id').empty();
                     var crnt_user = "{{user.id}}"
                     try{

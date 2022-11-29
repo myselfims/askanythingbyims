@@ -775,7 +775,75 @@ color: rgba(255, 0, 0, 0.721);
 
 
 
+/* Loader CSS */
 
+.modalcontainer {
+    display: none;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.454);
+    justify-content: center;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+  }
+  .loadercontainer {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    background-color: transparent;
+    justify-content: center;
+    height: 10vh;
+    width: fit-content;
+    position: absolute;
+
+  }
+
+span {
+    border-radius: 50%;
+    background-color: #47B5FF;
+    width: 1em;
+    height: 1em;
+    margin: 5px;
+    padding: px;
+    display: inline-block;
+  }
+  .dot1 {
+    animation: animation 1.2s 0.8s infinite;
+  }
+  .dot2 {
+    animation: animation 1.2s 0.7s infinite;
+  }
+  .dot3 {
+    animation: animation 1.2s 0.6s infinite;
+  }
+  .dot4 {
+    animation: animation 1.2s 0.5s infinite;
+  }
+  .dot5 {
+    animation: animation 1.2s 0.4s infinite;
+  }
+  .dot6 {
+    animation: animation 1.2s 0.3s infinite;
+  }
+
+  @keyframes animation {
+    0% {
+      width: 1.5em;
+      height: 1.5em;
+    }
+    50% {
+      width: 0.5em;
+      height: 0.5em;
+    }
+    100% {
+      width: 1.5em;
+      height: 1.5em;
+    }
+  }
 
 
 
