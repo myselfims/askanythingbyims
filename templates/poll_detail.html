@@ -153,12 +153,13 @@
 
   $(document).ready(function(){
       var t_comment = 0
+      document.getElementById('modalcontainer').style.display = 'flex';
       setTimeout(function AjaxCall(){
           $.ajax({
               type: 'GET',
               url : "{% url 'live_poll_detail' id=poll.id %}",
               success : function(response){
-
+                  document.getElementById('modalcontainer').style.display = 'none';
                   let total_votes = 0
                   for (key in response.answers){
                       total_votes += response.answers[key].votes
