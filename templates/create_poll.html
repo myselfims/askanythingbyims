@@ -21,9 +21,9 @@
     <div class="createbasediv">
         <div id="createsubdiv" class="createsubdiv">
             <h1>Create Poll</h1><hr>
-            <div id='alert' class="alert">
+            {% comment %} <div id='alert' class="alert">
                 <p><strong>Oops!</strong>{{message}}</p><button id='cutbtn' onclick="CutDiv('alert')" class='cutbtn'>&#10060;</button>
-            </div>
+            </div> {% endcomment %}
             <label for=""><strong> Title</strong></label>
             <form action="{% url 'save_poll' %}" method="post"> {% csrf_token %}
             <input id='titleinput' required name="title" type="text"><hr>
