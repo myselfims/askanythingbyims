@@ -21,16 +21,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-qtf6ethwy56x-to@l25*j5a43icy*+_9lfgm=)!bbzuopv924t'
-SECRET_KEY = os.environ['SECRET_KEY']
+
+SECRET_KEY = 'django-insecure-qtf6ethwy56x-to@l25*j5a43icy*+_9lfgm=)!bbzuopv924t'
+# SECRET_KEY = os.environ['SECRET_KEY']
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+
 CSRF_TRUSTED_ORIGINS = [
-    'https://askanythingbyims.herokuapp.com'
+    '*'
 ]
 # Application definition
 
@@ -125,8 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR / "static")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # STATICFILES_DIRS = [
 #    os.path.join(BASE_DIR, 'static/')
