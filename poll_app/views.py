@@ -311,20 +311,23 @@ def poll_detail(request, id):
 
 def live_poll_detail(request, id):
     if request.user.is_authenticated:
-        poll = Question.objects.get(id=id)
-        options = Answer.objects.filter(title=poll)
-        
-        comments_models = Comment.objects.filter(title=poll)
-        answers = []
-        for a in options:
-            answers.append({'id':a.id, 'votes':a.votes,})
-        
-        
-        comments = []
-        for comment in comments_models:
-            comments.append({'name':comment.name,'comment':comment.comment})
+        try:
+            poll = Question.objects.get(id=id)
+            options = Answer.objects.filter(title=poll)
+            
+            comments_models = Comment.objects.filter(title=poll)
+            answers = []
+            for a in options:
+                answers.append({'id':a.id, 'votes':a.votes,})
+            
+            
+            comments = []
+            for comment in comments_models:
+                comments.append({'name':comment.name,'comment':comment.comment})
 
-        return JsonResponse({'answers':list(answers),'comments':list(comments),'likes':poll.likes})
+            return JsonResponse({'answers':list(answers),'comments':list(comments),'likes':poll.likes})
+        except:
+            return redirect('home')
     return redirect('login')
 
 
