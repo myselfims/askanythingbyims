@@ -50,6 +50,7 @@ def signup(request):
                     messages.add_message(request,messages.INFO,'User already exist!')
                     return redirect('signup')
                 except:
+                    print(password)
                     user = User.objects.create(username=username, email=email, password = password)
                     user.set_password = password
                     user.save()
