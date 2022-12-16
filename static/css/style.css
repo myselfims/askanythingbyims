@@ -767,6 +767,13 @@ color: rgba(255, 0, 0, 0.721);
     margin: 0;
     padding: 0.1em;
 }
+
+.successicon{
+    width: 1em;
+    height: 1em;
+    font-size: 5em;
+}
+
 }
 
 
