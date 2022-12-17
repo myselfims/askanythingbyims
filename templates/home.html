@@ -194,11 +194,20 @@
 
     function CopyLink(btn,id,color){
         var link = window.location.host + "/polling/"+id;
-        console.log(link)
+        {% comment %} console.log(link)
         <!-- link.select() -->
         navigator.clipboard.writeText(link)
-        alert('Copied!')
+        alert('Copied!') {% endcomment %}
         document.getElementById(id).style.backgroundColor = color;
+
+        if (navigator.clipboard) { // If normal copy method available, use it
+            navigator.clipboard.writeText(link);
+            alert('Copied!');
+          } else { // Otherwise fallback to the above function
+            unsecuredCopyToClipboard(link);
+            alert('Copied!');
+          }
+          
     }
 
 
