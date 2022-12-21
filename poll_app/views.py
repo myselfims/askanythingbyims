@@ -10,6 +10,16 @@ from .models import *
 import socket
 
 
+
+# Get IP Address Function
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 def login_user(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -234,8 +244,8 @@ def polling(request,id):
         if poll.status == True:
             ans = Answer.objects.filter(title=poll)
             comments = Comment.objects.filter(title=poll)
-            ip = socket.gethostname()
-            ip_add = socket.gethostbyname(ip)
+
+            ip_add = get_client_ip()
             try:
                 voter = Voter.objects.get(title=poll,ip_address = ip_add)
             except:
@@ -252,8 +262,7 @@ def polling(request,id):
     
 def like_poll(request,id):
     poll = Question.objects.get(id=id)
-    ip = socket.gethostname()
-    ip_add = socket.gethostbyname(ip)
+    ip_add = get_client_ip()
     voter = Voter.objects.get(ip_address=ip_add)
     voter.like = True
     voter.save()
@@ -266,8 +275,7 @@ def like_poll(request,id):
 @csrf_exempt
 def vote_count(request,id):
     if request.method == 'POST':
-        ip = socket.gethostname()
-        ip_add = socket.gethostbyname(ip)
+        ip_add = get_client_ip()
         title = Question.objects.get(id=id)
         voter = Voter.objects.filter(title=title,ip_address=ip_add)
         print(len(voter))
