@@ -40,7 +40,7 @@
     document.getElementById('whatsapp_link').href = 'whatsapp://send?text='+url;
 
     function CopyPollLink(id,color){
-        var link = document.getElementById('pollink_input').value;
+        var link = document.getElementById('pollink_input').innerHTML;
         console.log(link)
         <!-- link.select() -->
         navigator.clipboard.writeText(link)
