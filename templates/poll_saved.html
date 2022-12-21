@@ -26,7 +26,8 @@
             <h1>Poll Created</h1>
             <hr>
             <label id='share_label' for="input">{{user.username}}, Share this link</label>
-            <a href='{% url "polling" id=poll.id %}'><input id='pollink_input' value='{% url "polling" id=poll.id %}' disabled type="text"></a><button id="copybtn" onclick="CopyPollLink('copybtn','#47B5FF')" class="btn">Copy</button>
+            <a href='{% url "polling" id=poll.id %}'><label id='pollink_input' ></label></a>
+            <button id="copybtn" onclick="CopyPollLink('copybtn','#47B5FF')" class="btn">Copy</button>
             <a id='whatsapp_link'> <button class='btn'>Share to Whatsapp</button> </a>
             <a href="{% url 'home' %}"><button id='back_btn' class='btn'>Back To Home</button></a>
 
@@ -35,7 +36,7 @@
 
 <script>
     var url  = window.location.host+"{% url 'polling' id=poll.id %}"
-    document.getElementById('pollink_input').value = url;
+    document.getElementById('pollink_input').innerHTML = url;
     document.getElementById('whatsapp_link').href = 'whatsapp://send?text='+url;
 
     function CopyPollLink(id,color){
