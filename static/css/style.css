@@ -479,7 +479,7 @@ top: 30%;
 display: flex;
 justify-content: center;
 align-items: center;
-z-index: 5;
+z-index: 10;
 
 }
 
@@ -758,6 +758,7 @@ color: rgba(255, 0, 0, 0.721);
     justify-content: center;
     text-align: center;
     width: 90%;
+    z-index: 10;
 }
 #commentdiv input{
     width: 95%;
