@@ -1,0 +1,31 @@
+{% extends 'login.html' %}
+{% load static %}
+
+
+{% block body %}
+
+<main>
+        
+    <div class="container">
+        <video autoplay loop muted src="{% static 'videos/Footage 2.mp4'%}">vi</video>
+        <div class="logindiv">
+            <div class="header">
+                <h1>Please login</h1>
+            </div>
+                {% for message in messages %}
+                <div id='alert' class="alert">
+                    <p><strong>Oops!</strong>{{message}}</p><button id='cutbtn' onclick="CutDiv('alert')" class='cutbtn'>&#10060;</button>
+                </div>
+                {% endfor %}
+            <form action="{% url 'signup' %}" method="post"> {% csrf_token %}
+            <div class="main">
+                {{form}}
+                <label for="">If you have an account please <a href="{% url 'login' %}">login!</a></label>
+                <button class="btn">Signup</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock body %}

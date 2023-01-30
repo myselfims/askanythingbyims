@@ -1,0 +1,201 @@
+{% extends 'login.html' %}
+
+{% block body %}
+<header>
+    <nav>
+        <div class='navdiv'>
+            <button onclick='SideBarToggle()' id='sidebartoggelbtn'>☰</button>
+            <a style='text-decoration:none;' href="{%url 'home' %}"><h1> Ask Anything</h1></a><sub><i> Rise-ims Product</i></sub>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <h2 id='username'>{{user.username}}</h2>
+            <button id='logoutbtn' class='btn'><a href="{% url 'logout' %}">logout</a></button>
+
+            
+        </div>
+    </nav>
+</header>
+<main>
+    <div class='homecontainer'>
+
+        <div id='sidebar' class="dashboarddiv">
+
+            <h2>Hello {{user.username}},</h2>
+            <label class='dashboardlabel' for="">Ongoing polls : <label for="" class='dashcountlabel'>{{ongoing_poll}}</label></label><hr>
+            <label class='dashboardlabel' for="">Lifetime votes : <label for="" id="lfvotes{{user.id}}" class='dashcountlabel'>{{total_votes}}</label></label><hr>
+            <label class='dashboardlabel' for="">Total polls : <label for="" class='dashcountlabel'>{{total_poll}}</label></label><hr>
+            <button style='display:none;' id='logoutbtn' class='btn'><a href="{% url 'logout' %}">logout</a></button>
+            <div class="space"></div>
+            <button id='sidelogoutbtn' class='btn'><a href="{% url 'logout' %}">logout</a></button>
+        </div>
+        <div class="homebasediv">
+            {% block homebody %}
+            <form action="{%url 'search' %}" method='post'> {% csrf_token %}
+            <div class="baseheaddiv">
+                <input placeholder='search poll' name='query' type="text">
+                <button type='submit' class='btn'>Search</button>
+                <a href="{% url 'create_poll'%}"><button type='button' class='btn'>Create Poll</button></a>
+            </div>
+            </form>
+            
+            <div class="space"></div>
+
+            <div class="basepollsdiv">
+                {% for poll in polls %}
+                <div class="polldiv">
+                    <a style='text-decoration:none;' href="{%url 'poll_detail' id=poll.id %}">
+                    <h1>{{forloop.counter}}.{{poll.title}}</h1></a>
+                    <div class="pollsubdiv">
+
+                        <label id='votes_name{{poll.id}}' for=""> Votes <label id='livetxt{{poll.id}}'  for=""><sup style="font-size: 0.5em; "><b  style='color:red;'>Live</b></sup></label> : <label  for="vote" id="vote{{poll.id}}">0</label></label>
+                        <label for="">Current status : <label id='poll_status{{poll.id}}'  style = 'color: lime' for=""></label></label>
+                    </div>
+                    <!-- <a href="{%url 'poll_action' id=poll.id %}">
+                        <button class='btn'>Deactivate</button>
+                    </a> -->
+
+                    
+                    <button {%if poll.status == True %} style='background-color: red;' {%else%} style='background-color: #a1e4ff;' {%endif%} id="btn{{poll.id}}" onclick="PollAction({{poll.id}})" class='btn'>Deactivate</button>
+                    
+                    <button style='background-color:lime' id='copy-btn{{poll.id}}' class='smallbtn' onclick="CopyLink('copy-btn','{{poll.id}}','aqua')" >Copy link</button>
+
+                    <button style='background-color:red' onclick='PollAction({{poll.id}},"delete_poll")' class='smallbtn' id='del-btn{{poll.id}}' >Delete</button>
+                    
+                    
+          
+                    
+                    
+                
+                </div>
+ 
+                {% empty %}
+                <div id='alert' class="alert">
+                    <p><strong>Oops!</strong> You don't have any poll please create one!</p><button style="color: black ;" id='cutbtn' onclick="CutDiv('alert')" class='cutbtn'>&#10060;</button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endblock homebody %}
+        </div>
+        
+    </div>
+</main>
+
+{% endblock body %}
+
+{% block script %}
+<script>
+
+    function PollAction(id, action){
+
+        let actionbtn = document.getElementById('btn'+id).innerHTML;
+        console.log(id)
+        if (actionbtn == 'Deactivate'){
+            $.ajax({
+                type : 'POST',
+                url : "{%url 'poll_action' id=12 %}".replace(/12/, id),
+                data : {action:'deactivate_poll'},
+                success : function(){
+                    document.getElementById('btn'+id).innerHTML = 'Activate';
+                    document.getElementById('btn'+id).style.backgroundColor = '#a1e4ff';
+                    {% comment %} document.getElementById('delete-btn').innerHTML = 'Delete'; {% endcomment %}
+                    document.getElementById('cop-btn').style.display = 'none';
+                    document.getElementById('delete-btn').style.display = 'flex';
+                    document.getElementById('votes').innerHTML = 'Votes : ';
+                    
+                }
+            })
+        }
+
+        if (actionbtn == 'Activate'){
+            $.ajax({
+                type : 'POST',
+                url : "{%url 'poll_action' id=12 %}".replace(/12/, id),
+                data : {action:'activate_poll'},
+                success : function(){
+                    document.getElementById('btn'+id).innerHTML = 'Deactivate';
+                    document.getElementById('btn'+id).style.backgroundColor = 'red';
+                    document.getElementById('cop-btn').style.display = 'flex';
+                    document.getElementById('delete-btn').style.display = 'none';
+                    document.getElementById('votes').innerHTML = " Votes <sup id='livetxt' style='font-size: 0.5em; '><b  style='color:red;'>Live</b></sup> : <label  for='vote' id='vote{{poll.id}}'>0</label>";
+                    
+                }
+            })
+        }
+
+        if (action == 'delete_poll'){
+            $.ajax({
+                type : 'POST',
+                url : "{%url 'poll_action' id=12 %}".replace(/12/, id),
+                data : {action:'delete_poll'},
+                success : function(){
+                    location.reload()
+                 
+                    document.getElementById('delete-btn').style.display = 'none';
+                    document.getElementById('livetxt').style.display = 'flex';
+                    
+                }
+            })
+        }
+
+    }
+
+    $(document).ready(function(){
+
+        setTimeout(function AjaxCall(){
+            
+            $.ajax({
+                type: 'GET',
+                url : "{% url 'live_vote' %}",
+                success : 
+                    function(response){
+                    $('#id').empty();
+                    var crnt_user = "{{user.id}}"
+                    try{
+                    for (var key in response.ans){
+                        console.log(response.ans[key].id)
+                        document.getElementById('vote'+response.ans[key].id).innerHTML = response.ans[key].total_votes;
+                        if (response.ans[key].poll_status == true){
+                            document.getElementById('poll_status'+response.ans[key].id).innerHTML = 'Active';
+                            document.getElementById('poll_status'+response.ans[key].id).style.color = 'green';
+                            document.getElementById('btn'+response.ans[key].id).innerHTML = 'Deactivate';
+                            document.getElementById('del-btn'+response.ans[key].id).style.display = 'none';
+                            document.getElementById('copy-btn'+response.ans[key].id).style.display = 'flex';
+                            document.getElementById('livetxt'+response.ans[key].id).style.display = 'inline';
+                        }else{
+                            document.getElementById('poll_status'+response.ans[key].id).innerHTML = 'Deactive';
+                            document.getElementById('livetxt'+response.ans[key].id).style.display = "none";
+                            document.getElementById('copy-btn'+response.ans[key].id).style.display = 'none';
+                            document.getElementById('del-btn'+response.ans[key].id).style.display = 'flex';
+                            document.getElementById('poll_status'+response.ans[key].id).style.color = 'red';
+                            document.getElementById('btn'+response.ans[key].id).innerHTML = 'Activate';
+
+                        }
+                        document.getElementById('lfvotes'+crnt_user).innerHTML = response.ans[key].lfvotes;
+
+                    }}catch(error){
+                        console.log(error)
+                    }
+                },
+                complete : setTimeout(AjaxCall,1000),
+                error : function(){
+                    alert('Something went wrong please check your connection!')
+                }
+                
+            })
+            
+        },1000);
+
+    },)
+
+
+    function CopyLink(btn,id,color){
+        var link = window.location.host + "/polling/"+id;
+        console.log(link)
+        <!-- link.select() -->
+        navigator.clipboard.writeText(link)
+        alert('Copied!')
+        document.getElementById(id).style.backgroundColor = color;
+    }
+
+
+</script>
+    {% endblock script %}

@@ -1,0 +1,837 @@
+
+/* color pallete link : https://colorhunt.co/palette/06283d256d8547b5ffdff6ff */
+
+    *{
+        padding: 0;
+        margin: 0;
+        color: #06283D;
+        font-family: 'Varela Round', sans-serif;
+        overflow: hidden;
+    }
+    .container{
+        /* background-image : linear-gradient(rgb(173, 255, 222),rgb(255, 213, 166)); */
+        background: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        
+
+    }
+    .logindiv{
+        background-color: #DFF6FF;
+        width: 30rem;
+        text-align: center;
+        padding: 0 0vw 2rem 0vw;
+        border-radius: 1rem;
+        box-shadow: 0px 5px 18px black;
+    }
+    input{
+        font-size: 1rem;
+        
+        text-align: center;
+        padding: 0.4rem;
+        width: 25rem;
+        height: 1.5rem;
+        margin: 1em 0;
+        margin-bottom: 2rem;
+        border-radius: 0.6rem;
+        border: 1px solid rgba(0, 0, 0, 0.468);
+        background-color: #DFF6FF;
+    }
+   
+    input:focus{
+        border: 10px;
+        box-shadow: 2px 2px 8px rgb(127, 202, 255);
+    }
+    .header{
+        background-color: #47B5FF;
+        border-radius: 1rem 1rem 0 0;
+        padding: 1rem;
+    }
+    .main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex-grow: space;
+        align-content: center;
+        padding: 1rem;
+        text-align: center;
+    }
+    .btn{
+        border-radius: 1.4rem;
+        font-size: 1.2rem;
+        width: fit-content;
+        height: auto;
+        background-color: transparent;
+        height: fit-content;
+        padding: 0.6rem;
+        border: 0.2em solid #06283d3a;
+        /* box-shadow: 2px 2px 5px black; */
+        
+        cursor: pointer;
+        margin: 0.5rem;
+    }
+    .btn:hover{
+        border: 0.2em solid #47B5FF;
+        color: rgba(0, 0, 0, 0.721);
+    }
+    label{
+        margin-bottom: 1vh;
+        font: 1rem;
+    }
+    video{
+        position: fixed;
+        z-index: -1;
+        object-fit: cover;
+        filter: blur(15px);
+        width: 100vw;
+        height: 100vh;
+    }
+
+.alert{
+    /* width: 94%; */
+    padding: 1em;
+    background-color: rgb(255, 65, 65);
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    box-shadow: 0px 0px 6px rgb(0, 0, 0);
+    margin: 1em;
+    border: 0.2em solid #1417185d;
+    border-radius: 0.5em;
+}
+.cutbtn{
+    position: absolute;
+    right: 10px;
+    top: 0.3em;
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 1em;
+    cursor: pointer;
+    border-radius: 100%;
+}
+.cutbtn:hover{
+    border-radius: 100%;
+    background-color: rgba(255, 255, 255, 0.304);
+    
+}
+
+
+/* Login for mobile responsive */
+
+@media screen and (max-width: 600px) {
+
+    .logindiv{
+        margin: 0.5em;
+    }
+    
+}
+
+
+/* Homepage CSS */
+.navdiv{
+    width: 100vw;
+    height: 3rem;
+    background-color: #47B5FF;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    padding-left: 1em;
+    position: relative;
+    z-index: 6;
+}
+
+#logoutbtn, #username{
+    position: absolute;
+    margin: 1rem;
+
+    right: 2rem;
+
+}
+#logoutbtn{
+    background-color: rgb(253, 119, 119);
+    color: white;
+}
+#logoutbtn a{
+    text-decoration: none;
+}
+#username{
+    right: 10rem;
+}
+
+.homecontainer{
+    background-color: #06283D;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+.dashboarddiv{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 0.2em solid #1417185d;
+    width: 20rem;
+    border-radius: 0.6rem;
+    padding: 1rem;
+    margin: 1rem;
+    /* box-shadow: 5px 5px 10px black; */
+    position: relative;
+}
+
+#sidelogoutbtn{
+    display: none;
+}
+
+.dashboardlabel{
+    margin: 1rem;
+}
+.dashcountlabel{
+    position: absolute;
+    right: 2em;
+}
+
+hr{
+    opacity: 50%;
+}
+.homebasediv{
+    width: 100%;
+    height: 90%;
+    background-color: white;
+    border: 0.2em solid #1417185d;
+    border-radius: 0.6em;
+    margin: 1rem;
+    /* box-shadow: 10px 10px 10px black; */
+    overflow-y: auto;
+}
+.baseheaddiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #a1e4ff;
+    border: 0.2em solid #47B5FF;
+    position: fixed;
+    width: 76.6%;
+    border-radius: 0.5em 0.5em 0 0;
+    z-index: 3;
+}
+.space{
+    height: 4em;
+}
+
+.baseheaddiv button{
+    width: 7em;
+}
+.baseheaddiv input{
+    margin: 0;
+    text-align: left;
+}
+.basepollsdiv{
+    margin: auto;
+}
+.polldiv{
+    border: 0.2em solid #06283d68;
+    background-color: #DFF6FF;
+    margin: 1em;
+    border-radius: 0.5em;
+    padding: 0.5em;
+
+    display: grid;
+    grid-template-columns: 28em 40em auto;
+    flex-direction: row;
+    position: relative;
+}
+
+.polldiv:hover{
+
+    border: 0.2em solid #47B5FF;
+}
+
+.polldiv div{
+    display: flex;
+    justify-content: center;
+    padding: 0.5em;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+}
+.polldiv button{
+    position: absolute;
+    right: 1em;
+    top: 0.1em;
+    width: 7em;
+    background-color: rgba(255, 0, 0, 0.523);
+}
+#sidebartoggelbtn{
+    display: none;
+    font-size: 1.5em;
+    padding: 0.5em;
+    background-color: transparent;
+    font-weight: bold;
+    border: none;
+    margin: 0 0.5em 0 0;
+}
+
+/* #sidebartoggelbtn:focus {
+    background-color: #a1e4ff;
+} */
+
+
+
+
+
+
+/* Create Poll Page CSS */
+
+.createbasediv{
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    
+}
+.createsubdiv{
+    display: flex;
+    flex-direction: column;
+    padding: 3em;
+    width: 50%;
+    justify-content: center;
+    overflow: auto;
+    margin: 6em 0;
+    background-color: #DFF6FF;
+    border-radius: 0.5em;
+    border: 0.2em solid rgba(0, 0, 0, 0.26);
+}
+
+.smallbtn{
+    background-color: lime;
+    font-size: 0.8em;
+    top: 5em;
+    margin: 4.6em 3em 0 0;
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.1em;
+    cursor: pointer;
+    border: 0.2em solid rgba(0, 0, 0, 0.26);
+    justify-content: center;
+}
+.smallbtn:hover{
+    border: 0.2em solid rgba(203, 203, 203, 0.26);
+}
+
+.createsubdiv input{
+    text-align: left;
+    margin-left: 1em;
+}
+.createsubdiv input:focus{
+    outline: none;
+}
+
+.createsubdiv hr{
+    margin: 1em;
+}
+#titleinput{
+    outline: none;
+    width: 90%;
+}
+#titleinput:focus{
+    outline: none;
+}
+.addoptionbtn{
+    background-color: transparent;
+    /* border: 2px solid #256D85; */
+    border: none;
+    border-radius: 100%;
+    width: 1.5em;
+    padding: 0.1em;
+    margin: 0.2em;
+    font-size: 2em;
+} 
+.addoptionbtn:hover{
+    background-color: #256d855d;
+    color: white;
+    cursor: pointer;
+}
+#createpollbtn{
+    width: 60%;
+    margin:auto;
+    margin: 2em auto;
+}
+
+#removeinputbtn{
+    display: none;
+}
+
+.permissionsdiv{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    font-size: 1em;
+}
+
+
+.permissionsdiv input{
+    width: 1em;
+    margin: 0 0.2em 0 0;
+    height: 1em;
+
+}
+#checkboxlabel{
+    cursor: pointer;
+}
+
+
+/* POLL SAVED PAGE CSS */
+
+.successicon{
+    border-radius: 100%;
+    background-color: lime;
+    padding: 0em;
+    width: 1.5em;
+    height: 1.5em;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 7em;
+    animation: scaleanimation 1s ease infinite  ;
+}
+.innercontainer{
+    display: flex;
+    justify-content: center;
+    /* flex-direction: column; */
+
+    width: 100%;
+    height: 100%;
+}
+.subcontainer{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    width: 50em;
+}
+.animation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 30em;
+    height: 20em;
+
+}
+
+/* Polling Page CSS */
+
+.pollingmain{
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-radius: 1em;
+    border: 0.2em solid #47B5FF;
+    background-color: #DFF6FF;
+    margin: auto;
+    overflow: auto;
+}
+.pollingdiv{
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    padding: 1em;
+    width: 26em;
+    border-radius: 0.5em;
+    border: 0.1em solid #06283d3a;
+    overflow: auto;
+    overflow: hidden;
+}
+
+
+.options{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin: 1em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    width: 23em;
+    border: 0.1em solid #06283d3a;
+}
+
+.options input{
+    width: 22em;
+    margin: 0.5em 0;
+}
+
+#commentdiv{
+    display: none;
+    position: absolute;
+    box-shadow: 0em 0em 5em 1em black;
+    top: 30%;
+    
+}
+
+.modallayer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    
+}
+
+#commentsdiv{
+    height: auto;
+    width: 90%;
+    pad: 0.2em;
+}
+#commentsouterdiv{
+    padding: 1em;
+}
+
+.commentsdiv{
+    height: 10em;
+    overflow: auto;
+}
+
+.options button{
+    padding: 1em;
+    width: 100%;
+    background-color: transparent;
+    margin: 0.5em 0;
+    border-radius: 0.3em;
+    border: 0.2em solid #06283d3a;
+
+}
+
+.options button:hover{
+    border: 0.2em solid #47B5FF;
+    cursor: pointer;
+
+}
+
+.options div{
+    padding: 0em 0.5em;
+    border-radius: 0.5em;
+    border: 0.1em solid #06283d3a;
+ 
+    margin: 0.5em 0;
+    cursor: pointer;
+    
+}
+.options div:hover{
+    border: 0.1em solid #47B5FF;
+}
+
+
+.engagediv{
+    display: flex;
+    justify-content: center;
+    width: auto;
+
+}
+.engagediv button{
+    margin: 0.5em;
+    padding: 0.4em;
+    font-size: 1em;
+    color: black;
+    border-radius: 0.3em;
+    background-color: transparent;
+    border: 0.2em solid #06283d3a;
+    
+}
+
+.engagediv button:hover{
+    border: 0.2em solid #47B5FF;
+    cursor: pointer;
+
+}
+
+.commentsdiv{
+    background-color: white;
+    padding: 1em;
+    border-radius: 0.5em;
+    margin: 1em 0;
+    border: 0.1em solid #06283d3a;
+}
+.comment{
+    background-color: white;
+    padding: 0.5em;
+    margin: 0.2em;
+    border-radius: 0.2em;
+    border: 0.1em solid rgba(0, 0, 0, 0.26);
+}
+
+/* POLL DEATIL PAGE CSS */
+
+
+.polldetaildiv{
+    display: flex;
+    padding: 2em;
+    justify-content: center;
+    flex-direction: column;
+}
+.polldetailhead{
+    background-color: #DFF6FF;
+    padding: 1em;
+    border-radius: 0.5em;
+    border: 0.2em solid rgba(0, 0, 0, 0.324);
+    display: grid;
+    grid-template-columns: 39em 10em 10em 20em;
+    flex-direction: grid;
+}
+
+
+
+#cop-btn{
+    width: fit-content;
+    height: fit-content;
+    
+}
+
+.graphdiv{
+    background-color: #DFF6FF;
+    margin: 2em;
+    padding: 1em 5em 2em 2em;
+    border-radius: 0.5em;
+    border: 0.2em solid rgba(0, 0, 0, 0.324);
+    height: auto;
+
+   
+}
+
+.answerdiv{
+    background-color: #47B5FF;
+    width: fit-content;
+    margin: 1em;
+    padding: 1em;
+    height: 2em;
+    border-radius: 0.5em;
+    border: 0.2em solid rgba(0, 0, 0, 0.324);
+    align-items: baseline;
+}
+
+#delete-btn{
+    display: none;
+}
+
+#delete-btn:hover{
+    border: 0.2em solid #ff0000;
+    color: rgba(255, 0, 0, 0.721);
+
+}
+
+
+@media screen and (max-width: 400px) {
+
+    .navdiv{
+        font-size: 1em;
+    }
+    .navdiv sub{
+        display: none;
+    }
+    #username{
+        display: none;
+    }
+    #logoutbtn{
+        display: none;
+    }
+    #sidebartoggelbtn{
+        display: flex;
+    }
+    .dashboarddiv{
+        display: none;
+    }
+    .baseheaddiv{
+        width: 100%;
+        font-size: 0.5em;
+    }
+    .baseheaddiv button{
+        font-size: 1em;
+        width: fit-content;
+    }
+    .baseheaddiv input{
+        width: 10em;
+    }
+    .polldiv{
+        display: flex;
+        position: none;
+        flex-direction: column;
+    }
+    .polldiv button{
+        font-size: 1em;
+        position: relative;
+        right: 0;
+        width: 100%;
+        margin: 0.5em 0;
+    }
+
+    #createsubdiv{
+        width: 100em;
+        font-size: 0.7em;
+        padding: 1em;
+
+    }
+    .createsubdiv input{
+        width: 90%;
+        font-size: 1em;
+    }
+    #checkbox{
+        width: 2em;
+        height: 2em;
+    }
+    .alert{
+        width: 80%;
+        font-size: 0.8em;
+    }
+    .alert button{
+        font-size: 0.8em;
+
+    }
+    .options{
+        width: 93%;
+        margin: 1em 0;
+      
+    }
+    .pollingdiv{
+        padding: 0.5em;
+        width: auto;
+    }
+    .pollingmain{
+        padding: 0.5em;
+        width: 80%;
+    }
+    .pollingdiv h1{
+        font-size: 1.3em;
+    }
+    .baseheaddiv{
+        position: static;
+    }
+    .polldiv h1{
+        font-size: 1em;
+    }
+    .space{
+        display: none;
+    }
+    .dashboarddiv{
+        position: absolute;
+        width: 60%;
+        height: 100%;
+        z-index: 5;
+        box-shadow: 100px 5px 1000px 10px;
+    }
+    .dashboarddiv a{
+        text-decoration: none;
+    }
+    #sidelogoutbtn{
+        display: flex;
+        font-size: 1em;
+    }
+    .polldetaildiv{
+        padding: 0.5em;
+        
+    }
+    .polldetailhead{
+        display: grid;
+        grid-template-columns: auto auto ;
+        font-size: 0.7em;
+        flex-direction: column;
+
+    }
+    .polldetailhead button{
+        font-size: 1em;
+
+    }
+    .graphdiv{
+        margin: 1em 0;
+        padding: 1em 5em 1em 1em;
+        font-size: 1em;
+    }
+    .graphdiv h1{
+        font-size: 1.3em;
+    }
+   
+    #commentdiv{
+        justify-content: center;
+        text-align: center;
+        width: 90%;
+    }
+    #commentdiv input{
+        width: 95%;
+
+    }
+    .comment{
+        margin: 0;
+        padding: 0.1em;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ANIMATION */
+@keyframes scaleanimation {
+    0%{
+        width: 1.5em;
+        height: 1.5em;
+    }
+    50%{
+        width: 1.8em;
+        height: 1.8em;
+        font-size: 10em;
+    }
+    100%{
+        width: 1.5em;
+        height: 1.5em;
+    }
+    
+}

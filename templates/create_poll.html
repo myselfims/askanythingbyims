@@ -1,0 +1,53 @@
+{% extends 'home.html' %}
+{% block homebody %}
+<style>
+    .optiondiv{
+        display: flex;
+        align-items: center;
+        
+    }
+    .optiondiv input{
+        margin: auto  0;
+        
+    }
+    #createpollbtn:hover{
+        color: black;
+    }
+
+</style>
+
+    <div class="createbasediv">
+        <div id="createsubdiv" class="createsubdiv">
+            <h1>Create Poll</h1><hr>
+            <div id='alert' class="alert">
+                <p><strong>Oops!</strong>{{message}}</p><button id='cutbtn' onclick="CutDiv('alert')" class='cutbtn'>&#10060;</button>
+            </div>
+            <label for=""><strong> Title</strong></label>
+            <form action="{% url 'save_poll' %}" method="post"> {% csrf_token %}
+            <input id='titleinput' required name="title" type="text"><hr>
+            <label for="">Options</label>
+            <div id="optionsdiv" class="optionsdiv">
+                <div style='display: flex;, flex-direction: row;,text-align:center;'>
+                    <button type="button" onclick='AddInput()' class='addoptionbtn'>&#43;</button>
+                    <button type="button" id='removeinputbtn' onclick='RemoveInput()' class='addoptionbtn'>-</button>
+                </div>
+            <div id="optioninputdiv">
+                <label for="">1 : </label><input name="option1" required id="option1" type="text">
+            </div>
+            <div>
+                <label for="">2 : </label><input name="option2" required id="option2" type="text">
+            </div>
+            
+
+        </div>
+        
+        <div class="permissionsdiv">
+            <input checked id='checkbox' name='allow_comment' type="checkbox"> <label id='checkboxlabel' for="checkbox"> Allow Comment</label>
+        </div>
+            <button type="submit" id='createpollbtn' class='btn'>Create Poll</button>
+        </div>
+    </div>
+</form>
+    </div>
+
+{% endblock homebody %}

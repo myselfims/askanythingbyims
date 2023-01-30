@@ -1,0 +1,48 @@
+{% extends 'home.html' %}
+
+{% block homebody %}
+
+<style>
+    #pollink_input{
+        margin: 0;
+    }
+    #back_btn{
+        width: 8em;
+        margin: 1em;
+    }
+    #share_label{
+        margin: 2em 0 1em 0;
+    }
+</style>
+
+<div class="innercontainer">
+    <div class="subcontainer">
+            <div class="animation">
+                <span class='successicon'>✔</span>
+            </div>
+            <h1>Poll Created</h1>
+            <hr>
+            <label id='share_label' for="input">{{user.username}}, Share this link</label>
+            <a href='{% url "polling" id=poll.id %}'><input id='pollink_input' value='{% url "polling" id=poll.id %}' disabled type="text"></a><button id="copybtn" onclick="CopyPollLink('copybtn','#47B5FF')" class="btn">Copy</button>
+            <a id='whatsapp_link'> <button class='btn'>Share to Whatsapp</button> </a>
+            <a href="{% url 'home' %}"><button id='back_btn' class='btn'>Back To Home</button></a>
+
+    </div>
+</div>
+
+<script>
+    var url  = window.location.host+"{% url 'polling' id=poll.id %}"
+    document.getElementById('pollink_input').value = url;
+    document.getElementById('whatsapp_link').href = 'whatsapp://send?text='+url;
+
+    function CopyPollLink(id,color){
+        var link = document.getElementById('pollink_input').value;
+        console.log(link)
+        <!-- link.select() -->
+        navigator.clipboard.writeText(link)
+        alert('Copied!')
+        document.getElementById(id).style.backgroundColor = color;
+    }
+</script>
+
+{% endblock homebody %}

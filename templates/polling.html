@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/style.css' %}">
+    <script src="{% static 'js/js.js' %}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    
+</body>
+</head>
+
+    <title>{{poll.title}}</title>
+</head>
+
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        color: #06283D;
+        font-family: 'Varela Round', sans-serif;
+        overflow: hidden;
+    }
+    #alert{
+        display: none;
+        box-shadow: 0px 0px 6px rgb(0, 0, 0);
+    }
+    .container{
+        overflow: hidden;
+        overflow: auto;
+    }
+</style>
+
+<body>
+    <main>
+        <div style='background: #06283D;' class="container">
+            <div class="pollingmain">
+                <div class="pollingdiv">
+                    {% if poll is None %}
+                    <h1>Poll isn't found or deactive!</h1>
+                    {% else %}
+                    <h1>{{poll.title}}</h1>
+                    <label for="">{{poll.date}}</label>
+                    
+                    {% if message in messages %}
+                    {{message}}
+                    <div style="background-color: red,display: flex;" id='alert' class="alert">
+                        <p><strong>Oops!</strong> {{message}}</p><button id='cutbtn' onclick="CutDiv('alert')" class='cutbtn'>&#10060;</button>
+                    </div>
+                    {% else %}
+                    <div style="background-color: rgb(139, 255, 139);" id='alert' class="alert">
+                        <p><strong>Hurray!</strong> Successfully Voted.</p><button id='cutbtn' onclick="CutDiv('alert')" class='cutbtn'>&#10060;</button>
+                    </div>
+                    {% endif %}
+                    <div class="options">
+                        {% if voter != None %}
+                        {% for option in ans %}
+                        <button disabled=true {% if option|slugify == voter.option|slugify %} style='background-color: rgb(223, 246, 255);border: 0.2em solid rgb(71, 181, 255);' {% endif %} value="{{option.id}}" class='optionbtn' id="{{option.id}}">{{option.option}} ({{option.votes}})</button>
+                        {% endfor %}
+                    </div>
+
+                    <div class="engagediv">
+                        <button {% if voter.like == True %} disabled style='background-color:#47B5FF;'{% endif %} id='likebtn' onclick="ChangeBtnBg('likebtn','#47B5FF')">👍{{poll.likes}}</button>
+                        {% if poll.allow_comment == True %}
+                        <button disabled id='cmntbtn'>Comment</button>
+                        {% endif %}
+                        <button>&#128101;{{total_votes}}</button>
+                    </div>
+                        {% else %}
+                        {% for option in ans %}
+                        <button onclick="SubmitPoll({{option.id}})" value="{{option.id}}" class='optionbtn' id="{{option.id}}">{{option.option}}</button>
+                        {% endfor %}
+                        
+                    </div>
+
+                    <div class="engagediv">
+                        <button id='likebtn' disabled onclick="ChangeBtnBg('likebtn','#47B5FF')">👍{{poll.likes}}</button>
+                        {% if poll.allow_comment == True %}
+                        <button id='cmntbtn'>Comment</button>
+                        {% endif %}
+                        <button>&#128101;{{total_votes}}</button>
+                    </div>
+                    {% endif %}
+
+                    {% if poll.allow_comment == True %}
+                    <div class="modallayer">
+                    <div id='commentdiv' class="options">
+                        <button id='cmntcutbtn' class=''>X</button>
+                        <input id='name' required placeholder='Who are you?' type="text">
+                        <input id='comment' required placeholder='What do you wanna say?' type="text">
+                        <button id='cmntsubmit' class='btn'>Comment</button>
+                    </div>
+                    </div>
+                    
+                </div>
+
+                <div id="commentsbox" class="commentsdiv">
+                    <h4>Public Comments</h4>
+                    {% for comment in comments %}
+                    <div class="comment">
+                        <label for="">{{comment.name}}</label>
+                        <h3>{{comment.comment}}</h3>
+                    </div>
+                  
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <a style='text-decoration:none;' href="{%url 'login' %}">Create your own poll now <b> click here!</b></a>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+<script>
+    var click_sound = new Audio("{% static 'sounds/success_sound.webm'%}")
+
+
+    document.getElementById('cmntcutbtn').onclick = function(){
+        document.getElementById('commentdiv').style.display = 'none';
+    }
+
+    document.getElementById('cmntbtn').onclick = function(){
+        document.getElementById('commentdiv').style.display = 'flex';
+    }
+
+
+
+
+    $('#cmntsubmit').click(function(){
+
+        $.ajax({
+            type : 'POST',
+            url : '{%url "poll_action" id=poll.id %}',
+            data : {
+                action : 'post_comment',
+                name : $("#name").val(),
+                comment : $("#comment").val(),
+            },
+            success : function(){
+                document.getElementById('commentdiv').style.display = 'none';
+                document.getElementById('name').disabled=true;
+                var cmntdiv = document.getElementById('commentsbox');
+                cmntdiv.innerHTML += '<div class="comment"><label for="">'+$("#name").val()+'</label><h3>'+$("#comment").val()+'</h3></div>'
+                alert('Comment submitted!')
+            }
+        })
+    })
+
+$('#likebtn').click(function(){
+    console.log('clicked');
+    click_sound.play()
+    $.ajax({
+        type: 'GET',
+        url : "{%url 'like_poll' id=poll.id %}",
+        success: function(response){
+            $("#likebtn").empty()
+            document.getElementById('likebtn').innerHTML = '👍'+response.likes;
+            document.getElementById('likebtn').disabled = true;
+        }
+    })
+})
+
+function SubmitPoll(id){
+    click_sound.play()
+    $.ajax({
+        type:'POST',
+        url: "{% url 'vote_count' id=poll.id %}",
+        data : {
+            answer : id
+        },
+        success : function(){
+            document.getElementsByClassName('optioninput').disabled = true;
+            document.getElementById(id).style.border = '0.2em solid #47B5FF';
+            document.getElementById(id).style.backgroundColor = '#DFF6FF';
+            document.getElementById(id).style.fontWeight = 'bold';
+            document.getElementById('alert').style.display = 'flex';
+            document.getElementById('likebtn').disabled = false;
+            document.getElementsByClassName('optionbtn').disabled = true;
+            var btns = document.getElementsByClassName('optionbtn');
+            for (const btn of btns){
+                console.log(btn)
+                btn.disabled = true;
+                btn.style.color = 'rgba(0, 0, 0, 0.689)';
+            }
+
+        }
+    })
+}
+
+
+
+
+</script>
+
+</html>
+{% endif %}
